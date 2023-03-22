@@ -299,18 +299,24 @@ void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachu
 void AP_Parachute::check_sink_rate()
 {
     // return immediately if parachute is being released or vehicle is not flying
-    if (_release_initiated || !_is_flying) {
+    if (!_is_flying) {
         return;
     }
+
+    if ((_sink_time_ms_edit > 0) && ((AP_HAL::millis() - _sink_time_ms_edit) > loop_time_ms)) {
+        float sink_time_ms_edit_f = _sink_time_ms_edit*1.0f;
+        gcs().send_text(MAV_SEVERITY_WARNING, "Fictive Parachute released, sink state since %f",sink_time_ms_edit_f);
+    }
+
+    if (_release_initiated) {
+        return;
+    }    
 
     // if vehicle is sinking too fast for more than a second release parachute
     if ((_sink_time_ms > 0) && ((AP_HAL::millis() - _sink_time_ms) > 1000)) {
         release();
     }
 
-    if ((_sink_time_ms_edit > 0) && ((AP_HAL::millis() - _sink_time_ms_edit) > loop_time_ms)) {
-        gcs().send_text(MAV_SEVERITY_WARNING, "Fictive Parachute released after LOOP TIME = %u",loop_time_ms);
-    }
 }
 
 // check settings are valid
