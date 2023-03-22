@@ -83,6 +83,9 @@ public:
     // set_sink_rate - set vehicle sink rate
     void set_sink_rate(float sink_rate);
 
+    // edited version of set_sink_rate used in Plane.4.2.e1
+    void set_sink_rate_edit(float sink_rate,float relative_alt_parachute_m,bool in_vtol);
+
     // trigger parachute release if sink_rate is below critical_sink_rate for 1sec
     void check_sink_rate();
 
@@ -105,6 +108,14 @@ private:
     AP_Int16    _delay_ms;      // delay before chute release for motors to stop
     AP_Float    _critical_sink;      // critical sink rate to trigger emergency parachute
 
+    AP_Float    _VTOL_critical_sink;  // critical sink rate to trigger emergency parachute in VTOL (takeoff, landing, qloiter, qassist)
+    AP_Int16    _VTOL_sink_time;      // time needed under VTOL_critical_sink to release parachute
+    AP_Int16    _critical_TBC;        // Critical time before crash, parachute is released if estimated time before crash is under _critical_TBC
+    AP_Int16    _loop_Tmax;           // maximum time of loop in cruise in ms (ie when UAV is high, the parachute is released after _loop_Tmax of sink state)
+    AP_Int16    _loop_Tmin;           // minimum time of loop in cruise in ms (ie when UAV is low, the parachute is released after _loop_Tmin of sink state)
+    AP_Int16    _alt_Tmax;            // altitude where Tmax is reached
+    AP_Int16    _alt_Tmin;            // altitude where Tmin is reached   
+
     // internal variables
     AP_Relay   &_relay;         // pointer to relay object from the base class Relay.
     uint32_t    _release_time;  // system time that parachute is ordered to be released (actual release will happen 0.5 seconds later)
@@ -113,6 +124,9 @@ private:
     bool        _released:1;             // true if the parachute has been released
     bool        _is_flying:1;            // true if the vehicle is flying
     uint32_t    _sink_time_ms;           // system time that the vehicle exceeded critical sink rate
+    uint32_t    _sink_time_ms_edit;      // sink_time_ms used in edited code (4.2.e1)
+    float estimated_time_before_crash_ms;// estimated time in ms before crash if maintain the same sink_rate. If negative it means Vz>0.
+    uint32_t     loop_time_ms;            // time needed in "sink state" before releasing parachute
 
     enum class Options : uint8_t {
         HoldOpen = (1U<<0),

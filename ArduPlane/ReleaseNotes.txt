@@ -1,3 +1,29 @@
+Release 4.2.msgonly-e1 22nd March 2023
+------------------------------
+Edited version of Plane-4.2 (which is using release 4.2.3)
+- prepare 4.2.e1 
+- params from Plane-4.2.e1 are added to param board
+- new function set_sink_rate_edit in AP_parachute.cpp to set sink_time_ms_edit (the sink_time if we were using 4.2.e1)
+- set-sink_rate_edit called in ArduPlane.cpp 
+- check_sink_rate modified in AP_parachute.cpp to check if sink_time_edit is bigger than time tolerance
+- add gcs().sendtext with security warning when parachute would have been released in Plane-4.2.e1  
+
+Release 4.2.e1 22nd March 2023
+------------------------------
+Edited version of Plane-4.2 (which is using release 4.2.3)
+- New parachute release process
+- During VTOL phase,
+	Sink state is reached if sink_rate is higher than VTOL_SK (sink rate tolerance)
+	Parachute is released if sink state is reached for VTOL_SK_T consecutive milliseconds
+- params CHUTE_VTOL_SK and CHUTE_VTOL_SK_T added to parameters board
+- During Cruise phase (ie not !VTOL)
+	Sink state is reached if expected_time_before_crash is lower than CRT_TBC (critical time before crah)
+	The calculated value loop_time follows a bounded affine law
+	Parachute is released is sink state is reached for loop_time consecutive milliseconds. 
+- param CHUTE_CRT_TBC added to paramteres board
+- params CHUTE_ALT_TMAX, CHUTE_LOOP_TMAX, CHUTE_ALT_TMIN, CHUTE_LOOP_TMIN (to define loop_time law) added to parameters board
+
+ 
 Release 4.2.3 21st August 2022
 ------------------------------
 
