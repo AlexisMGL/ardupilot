@@ -250,11 +250,13 @@ void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachu
     estimated_time_before_crash_ms = 1000.0f*relative_alt_parachute_m/sink_rate;
 
     
-    if (_sink_time_ms_edit != 0){
-        AP::logger().Write("FPAR","TimeUS,ETBC_ms,sink_time,loop_time","Qfff",AP_HAL::micros64(),estimated_time_before_crash_ms,(AP_HAL::millis() - _sink_time_ms_edit)*1.0f,loop_time_ms*1.0f);
-    }
-    else{
-       AP::logger().Write("FPAR","TimeUS,ETBC_ms,sink_time,loop_time","Qfff",AP_HAL::micros64(),estimated_time_before_crash_ms,0*1.0f,loop_time_ms*1.0f); 
+    if (_is_flying){
+        if (_sink_time_ms_edit != 0){
+            AP::logger().Write("FPAR","TimeUS,1200/ETBC_s,sink_time,loop_time","Qfff",AP_HAL::micros64(),1200*1000.0f/estimated_time_before_crash_ms,(AP_HAL::millis() - _sink_time_ms_edit)*1.0f,loop_time_ms*1.0f);
+        }
+        else{
+        AP::logger().Write("FPAR","TimeUS,1200/ETBC_s,sink_time,loop_time","Qfff",AP_HAL::micros64(),1200*1000.0f/estimated_time_before_crash_ms,0*1.0f,loop_time_ms*1.0f); 
+        }
     }
 
     // reset sink time if critical sink rate check is disabled or vehicle is not flying

@@ -533,6 +533,14 @@ void Plane::update_alt()
     parachute.set_sink_rate_edit(auto_state.sink_rate,relative_alt_parachute_m,in_vtol);
 #endif
 
+    if (AIRSPEED_MAX_SENSORS == 2){
+        airspeed_dual_sensors_delta = airspeed.get_airspeed(1)-airspeed.get_airspeed(0);
+        smooth_airspeed_dual_sensors_delta = 0.8*smooth_airspeed_dual_sensors_delta+0.2*airspeed_dual_sensors_delta;
+        if (smooth_airspeed_dual_sensors_delta*smooth_airspeed_dual_sensors_delta > 1.0f){
+            gcs().send_text(MAV_SEVERITY_WARNING,"Airspeed dual sensors alert");
+        }
+    }
+    
     update_flight_stage();
 
     if (control_mode->does_auto_throttle() && !throttle_suppressed) {

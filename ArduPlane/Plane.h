@@ -374,6 +374,9 @@ private:
 
     // The difference between current and desired airspeed.  Used in the pitch controller.  Meters per second.
     float airspeed_error;
+    // The difference between airspeed measured by sensorsssss if there are 2 sensors
+    float airspeed_dual_sensors_delta;
+    float smooth_airspeed_dual_sensors_delta;
 
     // An amount that the airspeed should be increased in auto modes based on the user positioning the
     // throttle stick in the top half of the range.  Centimeters per second.
