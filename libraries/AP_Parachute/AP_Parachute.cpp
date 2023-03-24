@@ -247,15 +247,21 @@ void AP_Parachute::set_sink_rate(float sink_rate)
 
 void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachute_m,bool in_vtol)
 {
-    estimated_time_before_crash_ms = 1000.0f*relative_alt_parachute_m/sink_rate;
+    // derive ETBC and avoids divions/0 issues
+    if (sink_rate*sink_rate < 0.25){
+        estimated_time_before_crash_ms = 1000.0f*relative_alt_parachute_m/0.5;
+    }
+    else{
+        estimated_time_before_crash_ms = 1000.0f*relative_alt_parachute_m/sink_rate;
+    } 
 
     
     if (_is_flying){
         if (_sink_time_ms_edit != 0){
-            AP::logger().Write("FPAR","TimeUS,1200/ETBC_s,sink_time,loop_time","Qfff",AP_HAL::micros64(),1200*1000.0f/estimated_time_before_crash_ms,(AP_HAL::millis() - _sink_time_ms_edit)*1.0f,loop_time_ms*1.0f);
+            AP::logger().Write("FPAR","TimeUS,1200/ETBC_s,sink_time,loop_time,AGL","Qffff",AP_HAL::micros64(),1200*1000.0f/estimated_time_before_crash_ms,(AP_HAL::millis() - _sink_time_ms_edit)*1.0f,loop_time_ms*1.0f,relative_alt_parachute_m);
         }
         else{
-        AP::logger().Write("FPAR","TimeUS,1200/ETBC_s,sink_time,loop_time","Qfff",AP_HAL::micros64(),1200*1000.0f/estimated_time_before_crash_ms,0*1.0f,loop_time_ms*1.0f); 
+        AP::logger().Write("FPAR","TimeUS,1200/ETBC_s,sink_time,loop_time,AGL","Qffff",AP_HAL::micros64(),1200*1000.0f/estimated_time_before_crash_ms,0*1.0f,loop_time_ms*1.0f,relative_alt_parachute_m); 
         }
     }
 
@@ -314,8 +320,7 @@ void AP_Parachute::check_sink_rate()
     }
 
     if ((_sink_time_ms_edit > 0) && ((AP_HAL::millis() - _sink_time_ms_edit) > loop_time_ms)) {
-        float sink_time_ms_edit_f = _sink_time_ms_edit*1.0f;
-        gcs().send_text(MAV_SEVERITY_WARNING, "Fictive Parachute released, sink state since %f",sink_time_ms_edit_f);
+        gcs().send_text(MAV_SEVERITY_WARNING, "Fictive Parachute released");
     }
 
     if (_release_initiated) {
