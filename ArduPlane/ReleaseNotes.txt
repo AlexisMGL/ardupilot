@@ -1,3 +1,18 @@
+Release 4.2.e2.1 27th March 2023
+------------------------------
+Edited version of Plane-4.2 (which is using release 4.2.3)
+- modified version of 4.2.msgonly-e2
+- tolerance of delta airspeed is now an input parameter (instead of 1)
+- param added in Parameters.cpp, Parameters.h, and used in ArduPlane.cpp as g.pitot_delta_tolerance
+
+
+Release 4.2.msgonly-e2 25th March 2023
+------------------------------
+Edited version of Plane-4.2 (which is using release 4.2.3)
+- modified version of 4.2.e1
+- add an error message if smoothed delta airspeed between sensor 1 and 0 is greater than 1 m/s
+- error is calculated only if there are exaclty 2 airspeed sensors
+
 Release 4.2.msgonly-e1 22nd March 2023
 ------------------------------
 Edited version of Plane-4.2 (which is using release 4.2.3)
