@@ -12,6 +12,15 @@
 #define GOBJECTN(v, pname, name, class) { AP_PARAM_GROUP, name, Parameters::k_param_ ## pname, (const void *)&plane.v, {group_info : class::var_info} }
 
 const AP_Param::Info Plane::var_info[] = {
+    // @Param: PITOT_DELTA
+    // @DisplayName: tolerance of airspeed between pitot 1 and 0
+    // @Description: An alert will be sent if the smoothed difference of airspeed becomes higher than this tolerance
+    // @User: Standard
+    // @Units: m/s
+    // @Range: 0 30
+    // @Increment: 1
+    GSCALAR(pitot_delta_tolerance,         "PITOT_DELTA", 2.0),
+
     // @Param: FORMAT_VERSION
     // @DisplayName: Eeprom format version number
     // @Description: This value is incremented when changes are made to the eeprom format

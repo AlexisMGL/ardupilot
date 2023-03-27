@@ -536,7 +536,7 @@ void Plane::update_alt()
     if (AIRSPEED_MAX_SENSORS == 2){
         airspeed_dual_sensors_delta = airspeed.get_raw_airspeed(1)-airspeed.get_raw_airspeed(0);
         smooth_airspeed_dual_sensors_delta = 0.8*smooth_airspeed_dual_sensors_delta+0.2*airspeed_dual_sensors_delta;
-        if (smooth_airspeed_dual_sensors_delta*smooth_airspeed_dual_sensors_delta > 1.0f){
+        if (smooth_airspeed_dual_sensors_delta*smooth_airspeed_dual_sensors_delta > g.pitot_delta_tolerance*g.pitot_delta_tolerance*1.0f){
             gcs().send_text(MAV_SEVERITY_INFO,"1:%f m/s",airspeed.get_raw_airspeed(1));
             gcs().send_text(MAV_SEVERITY_INFO,"0:%f m/s",airspeed.get_raw_airspeed(0));
             gcs().send_text(MAV_SEVERITY_WARNING,"Airspeed dual sensors alert,delta of %f m/s",smooth_airspeed_dual_sensors_delta);
