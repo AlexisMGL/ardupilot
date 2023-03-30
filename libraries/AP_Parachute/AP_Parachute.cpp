@@ -266,7 +266,7 @@ void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachu
     }
 
     // reset sink time if critical sink rate check is disabled or vehicle is not flying
-    if ((_critical_sink <= 0) || !_is_flying || relative_alt_parachute_m < 5) {
+    if ((_critical_sink <= 0) || !_is_flying || relative_alt_parachute_m < 10) {
         _sink_time_ms_edit = 0;
         return;
     }

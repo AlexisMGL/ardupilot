@@ -189,6 +189,43 @@ float Plane::relative_ground_altitude(bool use_rangefinder_if_available)
     return relative_altitude;
 }
 
+float Plane::relative_ground_altitude_parachute(bool use_rangefinder_if_available)
+{
+   if (use_rangefinder_if_available && rangefinder_state.in_range) {
+        return rangefinder_state.height_estimate;
+   }
+
+#if HAL_QUADPLANE_ENABLED
+   if (use_rangefinder_if_available && quadplane.in_vtol_land_final() &&
+       rangefinder.status_orient(ROTATION_PITCH_270) == RangeFinder::Status::OutOfRangeLow) {
+       // a special case for quadplane landing when rangefinder goes
+       // below minimum. Consider our height above ground to be zero
+       return 0;
+   }
+#endif
+
+#if AP_TERRAIN_AVAILABLE
+    float altitude;
+    if (terrain.status() == AP_Terrain::TerrainStatusOK &&
+        terrain.height_above_terrain(altitude, true)) {
+        return altitude;
+    }
+#endif
+
+#if HAL_QUADPLANE_ENABLED
+    if (quadplane.in_vtol_land_descent() &&
+        !(quadplane.options & QuadPlane::OPTION_MISSION_LAND_FW_APPROACH)) {
+        // when doing a VTOL landing we can use the waypoint height as
+        // ground height. We can't do this if using the
+        // LAND_FW_APPROACH as that uses the wp height as the approach
+        // height
+        return height_above_target();
+    }
+#endif
+
+    return relative_altitude;
+}
+
 /*
   set the target altitude to the current altitude. This is used when 
   setting up for altitude hold, such as when releasing elevator in
