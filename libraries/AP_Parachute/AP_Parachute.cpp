@@ -258,7 +258,7 @@ void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachu
     
     if (_is_flying){
         float log_etbc = estimated_time_before_crash_ms;
-        if (log_etbc < 0){
+        if (log_etbc < 0 || log_etbc > 40000){
             log_etbc = 40000.0f; //make the FPAR logs easier to read 
         }
         if (_sink_time_ms_edit != 0){
