@@ -192,7 +192,9 @@ float Plane::relative_ground_altitude(bool use_rangefinder_if_available)
 float Plane::relative_ground_altitude_parachute(bool use_rangefinder_if_available)
 {
    if (use_rangefinder_if_available && rangefinder_state.in_range) {
-        return rangefinder_state.height_estimate;
+        if (rangefinder_state.height_estimate < 50){
+            return rangefinder_state.height_estimate;
+        }
    }
 
 #if HAL_QUADPLANE_ENABLED
