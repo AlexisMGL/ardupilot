@@ -262,10 +262,10 @@ void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachu
             log_etbc = 40000.0f; //make the FPAR logs easier to read 
         }
         if (_sink_time_ms_edit != 0){
-            AP::logger().Write("FPAR","TimeUS,ETBC_s,sink_time,loop_time,AGL","Qffff",AP_HAL::micros64(),log_etbc,(AP_HAL::millis() - _sink_time_ms_edit)*1.0f,loop_time_ms*1.0f,relative_alt_parachute_m);
+            AP::logger().Write("FPAR","TimeUS,ETBC_s,sink_time,loop_time,AGL,SR","Qfffff",AP_HAL::micros64(),log_etbc,(AP_HAL::millis() - _sink_time_ms_edit)*1.0f,loop_time_ms*1.0f,relative_alt_parachute_m,sink_rate);
         }
         else{
-        AP::logger().Write("FPAR","TimeUS,ETBC_s,sink_time,loop_time,AGL","Qffff",AP_HAL::micros64(),log_etbc,0*1.0f,loop_time_ms*1.0f,relative_alt_parachute_m); 
+        AP::logger().Write("FPAR","TimeUS,ETBC_s,sink_time,loop_time,AGL,SR","Qfffff",AP_HAL::micros64(),log_etbc,0*1.0f,loop_time_ms*1.0f,relative_alt_parachute_m,sink_rate); 
         }
     }
 
