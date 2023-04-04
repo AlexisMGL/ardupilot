@@ -189,12 +189,28 @@ float Plane::relative_ground_altitude(bool use_rangefinder_if_available)
     return relative_altitude;
 }
 
-float Plane::relative_ground_altitude_parachute(bool use_rangefinder_if_available)
+float Plane::relative_ground_altitude_parachute(bool use_rangefinder_if_available, bool in_vtol, bool in_vtol_to)
 {
-   if (use_rangefinder_if_available && rangefinder_state.in_range) {
-        if (rangefinder_state.height_estimate < 50){
-            return rangefinder_state.height_estimate;
-        }
+   if (use_rangefinder_if_available && in_vtol && !in_vtol_to){ //enter loop where p_alt_offset is updated
+    if (rangefinder_state.in_range && rangefinder_state.height_estimate > 1 && rangefinder_state.height_estimate < 100 && (fabsf(rangefinder_state.height_estimate - prev_lidar_alt) < 0.1f*prev_lidar_alt)){
+        float raw_error_drift = prev_baro_alt_p - rangefinder_state.height_estimate;
+        p_count = p_count + 1;
+        p_error_drift = 0.9f*p_error_drift + 0.1f*raw_error_drift;
+    }
+    else{
+        p_count = 0;
+        p_error_drift = 0;
+    }
+    if (p_count == 20){
+        p_count = 0;
+        p_alt_offset = p_error_drift;
+        gcs().send_text(MAV_SEVERITY_INFO,"alt offsed updated");
+    }
+    prev_lidar_alt = rangefinder_state.height_estimate;
+   }
+   else{
+    p_error_drift = 0;
+    p_count = 0;
    }
 
 #if HAL_QUADPLANE_ENABLED
@@ -202,6 +218,7 @@ float Plane::relative_ground_altitude_parachute(bool use_rangefinder_if_availabl
        rangefinder.status_orient(ROTATION_PITCH_270) == RangeFinder::Status::OutOfRangeLow) {
        // a special case for quadplane landing when rangefinder goes
        // below minimum. Consider our height above ground to be zero
+       prev_baro_alt_p = 0;
        return 0;
    }
 #endif
@@ -210,7 +227,8 @@ float Plane::relative_ground_altitude_parachute(bool use_rangefinder_if_availabl
     float altitude;
     if (terrain.status() == AP_Terrain::TerrainStatusOK &&
         terrain.height_above_terrain(altitude, true)) {
-        return altitude;
+        prev_baro_alt_p = altitude;
+        return altitude - p_alt_offset;
     }
 #endif
 
@@ -221,11 +239,13 @@ float Plane::relative_ground_altitude_parachute(bool use_rangefinder_if_availabl
         // ground height. We can't do this if using the
         // LAND_FW_APPROACH as that uses the wp height as the approach
         // height
-        return height_above_target();
+        prev_baro_alt_p = height_above_target();
+        return height_above_target() - p_alt_offset;
     }
 #endif
 
-    return relative_altitude;
+    prev_baro_alt_p = relative_altitude;
+    return relative_altitude - p_alt_offset;
 }
 
 /*

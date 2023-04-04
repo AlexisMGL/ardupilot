@@ -374,9 +374,28 @@ private:
 
     // The difference between current and desired airspeed.  Used in the pitch controller.  Meters per second.
     float airspeed_error;
+
+
+
+
+
+    /// EDITED PART
     // The difference between airspeed measured by sensorsssss if there are 2 sensors
     float airspeed_dual_sensors_delta;
     float smooth_airspeed_dual_sensors_delta;
+
+    float prev_baro_alt_p;
+    float prev_lidar_alt;
+    uint16_t  p_count;
+    float p_error_drift;
+    float p_alt_offset;
+
+    //END EDITED PART
+
+
+
+
+
 
     // An amount that the airspeed should be increased in auto modes based on the user positioning the
     // throttle stick in the top half of the range.  Centimeters per second.
@@ -837,7 +856,7 @@ private:
     void setup_glide_slope(void);
     int32_t get_RTL_altitude_cm() const;
     float relative_ground_altitude(bool use_rangefinder_if_available);
-    float relative_ground_altitude_parachute(bool use_rangefinder_if_available);
+    float relative_ground_altitude_parachute(bool use_rangefinder_if_available, bool in_vtol, bool in_vtol_to);
     void set_target_altitude_current(void);
     void set_target_altitude_current_adjusted(void);
     void set_target_altitude_location(const Location &loc);

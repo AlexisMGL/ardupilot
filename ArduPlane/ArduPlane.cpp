@@ -527,8 +527,9 @@ void Plane::update_alt()
     // low pass the sink rate to take some of the noise out
     auto_state.sink_rate = 0.8f * auto_state.sink_rate + 0.2f*sink_rate;
 #if PARACHUTE == ENABLED
-    float relative_alt_parachute_m = relative_ground_altitude_parachute(false);
     bool in_vtol = quadplane.is_flying_vtol();
+    bool in_vtol_to = (quadplane.in_vtol_takeoff() || quadplane.in_transition());
+    float relative_alt_parachute_m = relative_ground_altitude_parachute(true,in_vtol,in_vtol_to);
     parachute.set_sink_rate(auto_state.sink_rate);
     parachute.set_sink_rate_edit(auto_state.sink_rate,relative_alt_parachute_m,in_vtol);
 #endif
