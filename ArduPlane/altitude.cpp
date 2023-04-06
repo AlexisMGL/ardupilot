@@ -204,7 +204,6 @@ float Plane::relative_ground_altitude_parachute(bool use_rangefinder_if_availabl
     if (p_count == 20){
         p_count = 0;
         p_alt_offset = p_error_drift;
-        gcs().send_text(MAV_SEVERITY_INFO,"alt offsed updated");
     }
     prev_lidar_alt = rangefinder_state.height_estimate;
    }
