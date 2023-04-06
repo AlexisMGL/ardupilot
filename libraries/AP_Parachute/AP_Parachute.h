@@ -109,10 +109,10 @@ private:
     AP_Float    _critical_sink;      // critical sink rate to trigger emergency parachute
 
     AP_Float    _VTOL_critical_sink;  // critical sink rate to trigger emergency parachute in VTOL (takeoff, landing, qloiter, qassist)
-    AP_Int16    _VTOL_sink_time;      // time needed under VTOL_critical_sink to release parachute
-    AP_Int16    _critical_TBC;        // Critical time before crash, parachute is released if estimated time before crash is under _critical_TBC
-    AP_Int16    _loop_Tmax;           // maximum time of loop in cruise in ms (ie when UAV is high, the parachute is released after _loop_Tmax of sink state)
-    AP_Int16    _loop_Tmin;           // minimum time of loop in cruise in ms (ie when UAV is low, the parachute is released after _loop_Tmin of sink state)
+    AP_Int32    _VTOL_sink_time;      // time needed under VTOL_critical_sink to release parachute
+    AP_Int32    _critical_TBC;        // Critical time before crash, parachute is released if estimated time before crash is under _critical_TBC
+    AP_Int32    _loop_Tmax;           // maximum time of loop in cruise in ms (ie when UAV is high, the parachute is released after _loop_Tmax of sink state)
+    AP_Int32    _loop_Tmin;           // minimum time of loop in cruise in ms (ie when UAV is low, the parachute is released after _loop_Tmin of sink state)
     AP_Int16    _alt_Tmax;            // altitude where Tmax is reached
     AP_Int16    _alt_Tmin;            // altitude where Tmin is reached   
 

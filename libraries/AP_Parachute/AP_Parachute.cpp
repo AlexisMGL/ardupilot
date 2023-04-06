@@ -82,13 +82,13 @@ const AP_Param::GroupInfo AP_Parachute::var_info[] = {
     AP_GROUPINFO("OPTIONS", 7, AP_Parachute, _options, 0),
 
     // @Param: VTOL_SK
-    // @DisplayName: Critical sink speed rate in m/s to trigger emergency parachute in VTOL mode
+    // @DisplayName: Critical sink speed rate in vtol
     // @Description: release parachute when VTOL Critical sink rate is reached
     // @Range: 0 15
     // @Units: m/s
     // @Increment: 1
     // @User: Standard
-    AP_GROUPINFO("VTOL_SK", 8, AP_Parachute, _VTOL_critical_sink, 5),  
+    AP_GROUPINFO("VTOL_SK", 8, AP_Parachute, _VTOL_critical_sink, 5.0f),
 
     // @Param: VTOL_SK_T
     // @DisplayName: Time needed under VTOL_CRT_SINK to release parachute
@@ -97,7 +97,7 @@ const AP_Param::GroupInfo AP_Parachute::var_info[] = {
     // @Units: ms
     // @Increment: 1
     // @User: Standard
-    AP_GROUPINFO("VTOL_SK_T", 9, AP_Parachute, _VTOL_sink_time, 425),   
+    AP_GROUPINFO("VTOL_SK_T", 9, AP_Parachute, _VTOL_sink_time, 425),
 
     // @Param: CRT_TBC
     // @DisplayName: critical time before crash
@@ -106,7 +106,7 @@ const AP_Param::GroupInfo AP_Parachute::var_info[] = {
     // @Units: ms
     // @Increment: 100
     // @User: Standard
-    AP_GROUPINFO("CRT_TBC", 10, AP_Parachute, _critical_TBC, 11225),  
+    AP_GROUPINFO("CRT_TBC", 10, AP_Parachute, _critical_TBC, 11225),
 
     // @Param: LOOP_TMAX
     // @DisplayName: In cruise, time needed in sink state to release parachute at high altitude
@@ -115,7 +115,7 @@ const AP_Param::GroupInfo AP_Parachute::var_info[] = {
     // @Units: ms
     // @Increment: 100
     // @User: Standard
-    AP_GROUPINFO("LOOP_TMAX", 11, AP_Parachute, _loop_Tmax, 2000),  
+    AP_GROUPINFO("LOOP_TMAX", 11, AP_Parachute, _loop_Tmax, 2000),
 
     // @Param: LOOP_TMIN
     // @DisplayName: In cruise, time needed in sink state to release parachute at low altitude
@@ -124,25 +124,25 @@ const AP_Param::GroupInfo AP_Parachute::var_info[] = {
     // @Units: ms
     // @Increment: 100
     // @User: Standard
-    AP_GROUPINFO("LOOP_TMIN", 12, AP_Parachute, _loop_Tmin, 425),  
+    AP_GROUPINFO("LOOP_TMIN", 12, AP_Parachute, _loop_Tmin, 425),
 
     // @Param: ALT_TMAX
     // @DisplayName: In cruise, altitude where Tmax is reached
     // @Description: the time tolerance in sink state is higher at high altitude and reach LOOP_TMAX at ALT_TMAX
-    // @Range: 60 800 
+    // @Range: 60 800
     // @Units: m
     // @Increment: 10
     // @User: Standard
-    AP_GROUPINFO("ALT_TMAX", 13, AP_Parachute, _alt_Tmax, 120),  
+    AP_GROUPINFO("ALT_TMAX", 13, AP_Parachute, _alt_Tmax, 120),
 
     // @Param: ALT_TMIN
     // @DisplayName: In cruise, altitude where Tmin is reached
     // @Description: the time tolerance in sink state is lower at low altitude and reach LOOP_TMIN at ALT_TMIN
-    // @Range: 0 100 
+    // @Range: 0 100
     // @Units: m
     // @Increment: 10
     // @User: Standard
-    AP_GROUPINFO("ALT_TMIN", 14, AP_Parachute, _alt_Tmin, 40),  
+    AP_GROUPINFO("ALT_TMIN", 14, AP_Parachute, _alt_Tmin, 40),
 
     AP_GROUPEND
 };
