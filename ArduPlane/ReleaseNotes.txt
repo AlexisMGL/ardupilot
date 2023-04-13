@@ -1,3 +1,21 @@
+Release 4.2.e2.4 6th April 2023
+------------------------------
+- Change calculation for parachute altitude: Baro Terr altitude adjusted with lidar alt (adjust offset if we have 20 healthy value of lidar in range)
+- This way of calculation is done in a new funct: relative_ground_altitude_parachute (instead of relative_ground_altitude) in altitude.cpp
+- Pitot error message doesn't show if mean airspeed is below 10 m/s
+- Delete message when parachute altitude's offset is updated
+
+Release 4.2.e2.3 3rd April 2023
+------------------------------
+- Altitude for parachute used relative_ground_altitude(true) -> read lidar
+- Difference between airspeed 1 and 0 is more smoothed (change of filter params)
+- changes in FPAR logs: ETBC is bounded by 40000 for etbc>40000 and etbc=40000 if etbc<0
+- add parachute sink_rate to logs
+- change lidar read settings 
+
+Release 4.2.e2.2 27th March 2023
+- Pitot error message doesn't show if mean airspeed is below 4 m/s
+
 Release 4.2.e2.1 27th March 2023
 ------------------------------
 Edited version of Plane-4.2 (which is using release 4.2.3)
