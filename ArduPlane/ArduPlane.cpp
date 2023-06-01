@@ -60,7 +60,7 @@ const AP_Scheduler::Task Plane::scheduler_tasks[] = {
     SCHED_TASK(stabilize,             400,    100,  18),
     SCHED_TASK(set_servos,            400,    100,  21),
     SCHED_TASK(update_throttle_hover, 100,     90,  24),
-    SCHED_TASK(read_control_switch,     7,    100,  27),
+    SCHED_TASK(read_control_switch,     3,    100,  27),
     SCHED_TASK(update_GPS_50Hz,        50,    300,  30),
     SCHED_TASK(update_GPS_10Hz,        10,    400,  33),
     SCHED_TASK(navigate,               10,    150,  36),
@@ -534,12 +534,10 @@ void Plane::update_alt()
     parachute.set_sink_rate_edit(auto_state.sink_rate,relative_alt_parachute_m,in_vtol);
 #endif
 
-    if (AIRSPEED_MAX_SENSORS == 2){
+    if (AIRSPEED_MAX_SENSORS == 2 && 0.5f*(airspeed.get_raw_airspeed(1)+airspeed.get_raw_airspeed(0)) > 16.0f){
         airspeed_dual_sensors_delta = airspeed.get_raw_airspeed(1)-airspeed.get_raw_airspeed(0);
         smooth_airspeed_dual_sensors_delta = 0.95*smooth_airspeed_dual_sensors_delta+0.05*airspeed_dual_sensors_delta;
-        if (smooth_airspeed_dual_sensors_delta*smooth_airspeed_dual_sensors_delta > g.pitot_delta_tolerance*g.pitot_delta_tolerance*1.0f && 0.5f*(airspeed.get_raw_airspeed(1)+airspeed.get_raw_airspeed(0)) > 10.0f){  //check if delta_airspeed is higher than tolerance and if mean airspeed is higher than 4m/s
-            gcs().send_text(MAV_SEVERITY_INFO,"1:%f m/s",airspeed.get_raw_airspeed(1));
-            gcs().send_text(MAV_SEVERITY_INFO,"0:%f m/s",airspeed.get_raw_airspeed(0));
+        if (smooth_airspeed_dual_sensors_delta*smooth_airspeed_dual_sensors_delta > g.pitot_delta_tolerance*g.pitot_delta_tolerance*1.0f){  //check if delta_airspeed is higher than tolerance
             gcs().send_text(MAV_SEVERITY_WARNING,"Airspeed dual sensors alert,delta of %f m/s",smooth_airspeed_dual_sensors_delta);
         }
     }
