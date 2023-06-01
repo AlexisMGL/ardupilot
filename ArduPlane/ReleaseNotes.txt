@@ -1,3 +1,10 @@
+Release 4.2.e3.1 1st June 2023
+------------------------------
+- Based on Plane-4.2.e2.4 (and not 4.2.e2.6), older version can still be use as base to implement functionalities then (Throttle/speed and geofence)
+- The frequency of read_control_switch went from 7Hz to 3Hz, to lower the risk of undesired change mode
+- Less text on the pitot delta alerts.
+
+
 Release 4.2.e2.4 6th April 2023
 ------------------------------
 - Change calculation for parachute altitude: Baro Terr altitude adjusted with lidar alt (adjust offset if we have 20 healthy value of lidar in range)
