@@ -381,7 +381,7 @@ private:
 
     /// EDITED PART
     // The difference between airspeed measured by sensorsssss if there are 2 sensors
-    float airspeed_dual_sensors_delta;
+    //float airspeed_dual_sensors_delta;
     float smooth_airspeed_dual_sensors_delta;
 
     float prev_baro_alt_p;

@@ -303,7 +303,7 @@ void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachu
     else{
         uint32_t loop_tmin = _loop_Tmin;
         uint32_t loop_tmax = _loop_Tmax; //convert _loop_tmin and _loop_tmax to uint to be compared to uint
-        uint32_t k_parachute_law = (_loop_Tmax-_loop_Tmin)/(_alt_Tmax-_alt_min); // k is in  ms / m
+        uint32_t k_parachute_law = (_loop_Tmax-_loop_Tmin)/(_alt_Tmax-_alt_Tmin); // k is in  ms / m
         uint32_t zero_h_parachute_law = _loop_Tmax - k_parachute_law*_alt_Tmax; // in ms
         loop_time_ms = k_parachute_law*relative_alt_parachute_m + zero_h_parachute_law;
         if (loop_time_ms < loop_tmin){
