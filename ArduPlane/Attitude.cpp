@@ -830,3 +830,59 @@ void Plane::update_load_factor(void)
         roll_limit_cd = MIN(roll_limit_cd, roll_limit);
     }    
 }
+void Plane::check_th_speed(void){
+    
+    uint8_t sample_size = 100; //10s at 10Hz
+
+    if(quadplane.in_vtol_takeoff() || quadplane.in_transition()){
+        throttle_sample_loop = 0; 
+        return;
+    }
+
+    if (throttle_sample_loop < sample_size){
+        float aspeed;
+        if(!ahrs.airspeed_estimate(aspeed)){
+            throttle_sample_loop = throttle_sample_loop + 1;
+            return;
+        }   
+        mean_throttle = mean_throttle + SRV_Channels::get_output_scaled(SRV_Channel::k_throttle);
+        mean_PV3 = mean_PV3 + (barometer.get_pressure()*aspeed*aspeed*aspeed);
+        throttle_sample_loop = throttle_sample_loop + 1;
+    }
+    
+    else{
+
+        float aspeed;
+        if(!ahrs.airspeed_estimate(aspeed)){
+            return;
+        }
+        mean_throttle = mean_throttle / sample_size;
+        mean_PV3 = mean_PV3 / sample_size;
+        mean_PV3 = (mean_PV3* 65 / (1.5*1000000000));
+        float mean_P_add = mean_throttle - 68;
+        float total_height_m = barometer.get_altitude() + ((aspeed*aspeed)/(2*9.80665f));
+        float delta_total_height_m = total_height_m - prev_total_height_m;
+/*         float ratio = 0;
+        if (fabsf(mean_P_add)>7 || fabsf(delta_total_height_m)>5){
+            ratio = delta_total_height_m/mean_P_add;
+            if (fabsf(ratio) >100){
+                ratio = 100*ratio/fabsf(ratio);
+            }
+        } */
+        float offset = mean_throttle - 0.94118*delta_total_height_m;
+
+        AP::logger().Write("THSP", "TimeUS,thm,dthm,Padd,OutP100,PV3,offset", "Qffffff",
+                                    AP_HAL::micros64(),
+                                    total_height_m*1.0,
+                                    delta_total_height_m*1.0,
+                                    mean_P_add*1.0,
+                                    mean_throttle*1.0,
+                                    mean_PV3*1.0,
+                                    offset);
+        throttle_sample_loop = 0;
+        prev_total_height_m = total_height_m;
+        mean_PV3 = 0;
+        mean_throttle = 0;
+        
+    }
+}

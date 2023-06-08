@@ -384,6 +384,11 @@ private:
     //float airspeed_dual_sensors_delta;
     float smooth_airspeed_dual_sensors_delta;
 
+    uint16_t throttle_sample_loop;
+    float mean_throttle;
+    float mean_PV3; 
+    float prev_total_height_m;
+
     float prev_baro_alt_p;
     float prev_lidar_alt;
     uint16_t  p_count;
@@ -852,6 +857,7 @@ private:
     // Attitude.cpp
     void adjust_nav_pitch_throttle(void);
     void update_load_factor(void);
+    void check_th_speed(void);  //new fonction added by alexis
     void adjust_altitude_target();
     void setup_glide_slope(void);
     int32_t get_RTL_altitude_cm() const;

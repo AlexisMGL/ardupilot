@@ -541,6 +541,11 @@ void Plane::update_alt()
             gcs().send_text(MAV_SEVERITY_WARNING,"Dual sensors alert,delta of %f m/s",smooth_airspeed_dual_sensors_delta);
         }
     }
+    else{
+        smooth_airspeed_dual_sensors_delta = 0;
+    }
+
+    check_th_speed();
     
     update_flight_stage();
 
