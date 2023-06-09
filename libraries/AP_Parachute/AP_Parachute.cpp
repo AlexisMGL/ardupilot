@@ -248,15 +248,15 @@ void AP_Parachute::set_sink_rate(float sink_rate)
 void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachute_m,bool in_vtol)
 {
     // derive ETBC and avoids divions/0 issues
-    if (sink_rate*sink_rate < 0.25){
-        estimated_time_before_crash_ms = 1000.0f*relative_alt_parachute_m/0.5;
+    if (fabsf(sink_rate) < 0.5){
+        estimated_time_before_crash_ms = 1000.0f*relative_alt_parachute_m/0.5; //if drone is not sinking, or sinking very slowly, we will state that its sink rate is 0.5 m/s
     }
     else{
-        estimated_time_before_crash_ms = 1000.0f*relative_alt_parachute_m/sink_rate;
+        estimated_time_before_crash_ms = 1000.0f*relative_alt_parachute_m/sink_rate; //elsewhere, whe derive the time (in ms) before drone hit the ground 
     } 
 
     
-    if (_is_flying){
+    if (_is_flying){ //part where logs are written in FPAR
         float log_etbc = estimated_time_before_crash_ms;
         if (log_etbc < 0 || log_etbc > 40000){
             log_etbc = 40000.0f; //make the FPAR logs easier to read 
@@ -269,14 +269,14 @@ void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachu
         }
     }
 
-    // reset sink time if critical sink rate check is disabled or vehicle is not flying
-    if ((_critical_sink <= 0) || !_is_flying || relative_alt_parachute_m < 10) {
+    // reset sink time if critical sink rate check is disabled or vehicle is not flying or too low
+    if (!_is_flying || relative_alt_parachute_m < 20) {
         _sink_time_ms_edit = 0;
         return;
     }
 
     
-    // reset sink_time if vehicle is not sinking too fast
+    // reset sink_time if vehicle is not sinking too fast in vtol
     if (in_vtol){
         if (sink_rate <= _VTOL_critical_sink){
             _sink_time_ms_edit = 0;
@@ -284,6 +284,7 @@ void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachu
         }
     }
 
+    // reset sink_time if vehicle is far from hitting the ground (in time)
     else{
         if(estimated_time_before_crash_ms < 0 || estimated_time_before_crash_ms >= _critical_TBC || _critical_TBC <= 0){
             _sink_time_ms_edit = 0;
@@ -294,12 +295,14 @@ void AP_Parachute::set_sink_rate_edit(float sink_rate,float relative_alt_parachu
 
    // start time when sinking too fast
     if (_sink_time_ms_edit == 0) {
-        _sink_time_ms_edit = AP_HAL::millis();
+        _sink_time_ms_edit = AP_HAL::millis(); //keep in memory the time we started to sink
     }
 
+    // In this part we set the time needed under sink state to release parachute
     if(in_vtol){
-        loop_time_ms =_VTOL_sink_time; 
+        loop_time_ms =_VTOL_sink_time; //in vtol this time is fixed (a input parameter)
     }
+    // In cruise, this time is an affine law (less time needed when close to the ground) bounded by the 2 points we sets
     else{
         uint32_t loop_tmin = _loop_Tmin;
         uint32_t loop_tmax = _loop_Tmax; //convert _loop_tmin and _loop_tmax to uint to be compared to uint
