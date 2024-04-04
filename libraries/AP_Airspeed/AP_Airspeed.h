@@ -179,6 +179,8 @@ public:
     // get current primary sensor
     uint8_t get_primary(void) const { return primary; }
 
+    void swap_underestimate_pitot();
+
     // get number of sensors
     uint8_t get_num_sensors(void) const { return num_sensors; }
     

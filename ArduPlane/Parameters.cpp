@@ -21,6 +21,14 @@ const AP_Param::Info Plane::var_info[] = {
     // @Increment: 1
     GSCALAR(pitot_delta_tolerance,         "PITOT_DELTA", 2.0),
 
+    // @Param: MODE_LOCK
+    // @DisplayName: Status of mode lock (activated or not)
+    // @Description: 1 for lock activated, 0 for lock free
+    // @User: Standard
+    // @Range: 0 1
+    // @Increment: 1
+    GSCALAR(mode_lock,                       "MODE_LOCK", 1),    
+
     // @Param: FORMAT_VERSION
     // @DisplayName: Eeprom format version number
     // @Description: This value is incremented when changes are made to the eeprom format

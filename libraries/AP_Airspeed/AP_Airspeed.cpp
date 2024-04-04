@@ -660,6 +660,23 @@ void AP_Airspeed::handle_msp(const MSP::msp_airspeed_data_message_t &pkt)
         }
     }
 }
+
+void AP_Airspeed::swap_underestimate_pitot()
+{
+    if (!use(0) || !use(1)){
+        return;
+    }
+
+
+
+    uint8_t next_read = 1 - get_primary();
+    primary_sensor = next_read;
+    gcs().send_text(MAV_SEVERITY_WARNING,"Primary Airspeed now %d m/s",next_read);
+    return;
+
+
+}
+
 #endif 
 
 void AP_Airspeed::Log_Airspeed()

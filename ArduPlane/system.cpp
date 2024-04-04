@@ -204,6 +204,9 @@ void Plane::startup_ground(void)
 
 bool Plane::set_mode(Mode &new_mode, const ModeReason reason)
 {
+
+
+
     // update last reason
     const ModeReason last_reason = _last_reason;
     _last_reason = reason;
@@ -251,6 +254,16 @@ bool Plane::set_mode(Mode &new_mode, const ModeReason reason)
         return false;
     }
 #endif  // HAL_QUADPLANE_ENABLED
+
+     // EDITED PART 
+
+    float distance_from_home = current_loc.get_distance(ahrs.get_home());
+    if (distance_from_home > 800 && g.mode_lock ==1 && (reason == ModeReason::RC_COMMAND|| reason == ModeReason::GCS_COMMAND)){
+        gcs().send_text(MAV_SEVERITY_INFO,"Mode Lock activated, distance of %f km",distance_from_home/1000);
+        return false;
+    }
+
+    // END OF EDITS
 
     // backup current control_mode and previous_mode
     Mode &old_previous_mode = *previous_mode;
