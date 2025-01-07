@@ -58,6 +58,15 @@ singleton AP_AHRS method initialised boolean
 singleton AP_AHRS method get_posvelyaw_source_set uint8_t
 singleton AP_AHRS method get_quaternion boolean Quaternion'Null
 
+include AP_Airspeed/AP_Airspeed.h
+singleton AP_Airspeed depends AP_AIRSPEED_ENABLED
+singleton AP_Airspeed rename airspeed
+singleton AP_Airspeed method enabled boolean uint8_t 0 (AIRSPEED_MAX_SENSORS-1)
+singleton AP_Airspeed method healthy boolean uint8_t 0 (AIRSPEED_MAX_SENSORS-1)
+singleton AP_Airspeed method get_airspeed float uint8_t 0 (AIRSPEED_MAX_SENSORS-1)
+singleton AP_Airspeed method get_raw_airspeed float uint8_t 0 (AIRSPEED_MAX_SENSORS-1)
+singleton AP_Airspeed method get_temperature boolean uint8_t 0 (AIRSPEED_MAX_SENSORS-1) float'Null
+
 include AP_Arming/AP_Arming.h
 
 singleton AP_Arming rename arming
@@ -65,6 +74,7 @@ singleton AP_Arming method disarm boolean AP_Arming::Method::SCRIPTING'literal
 singleton AP_Arming method is_armed boolean
 singleton AP_Arming method pre_arm_checks boolean false'literal
 singleton AP_Arming method arm boolean AP_Arming::Method::SCRIPTING'literal
+singleton AP_Arming method arm_force boolean AP_Arming::Method::SCRIPTING'literal
 singleton AP_Arming method get_aux_auth_id boolean uint8_t'Null
 singleton AP_Arming method set_aux_auth_passed void uint8_t'skip_check
 singleton AP_Arming method set_aux_auth_failed void uint8_t'skip_check string

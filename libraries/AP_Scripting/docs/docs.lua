@@ -2477,6 +2477,33 @@ function battery:healthy(instance) end
 ---@return integer
 function battery:num_instances() end
 
+-- The Airspeed library provides access to airspeed sensors information.
+airspeed = {}
+
+-- desc
+---@param instance integer
+---@return boolean
+function airspeed:enabled(instance) end
+
+-- desc
+---@param instance integer
+---@return boolean
+function airspeed:healthy(instance) end
+
+-- Get airspeed for the given sensor instance
+---@param instance integer
+---@return number -- airspeed in m/s -1 if invalid.
+function airspeed:get_airspeed(instance) end
+
+-- desc
+---@param instance integer
+---@return number -- raw_airspeed in m/s -1 if invalid.
+function airspeed:get_raw_airspeed(instance) end
+
+-- desc
+---@param instance integer
+---@return number|nil
+function airspeed:get_temperature(instance) end
 
 -- desc
 ---@class arming
@@ -2498,6 +2525,10 @@ function arming:get_aux_auth_id() end
 -- desc
 ---@return boolean
 function arming:arm() end
+
+-- desc
+---@return boolean
+function arming:arm_force() end
 
 -- desc
 ---@return boolean
