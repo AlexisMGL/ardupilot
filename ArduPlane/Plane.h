@@ -1234,6 +1234,8 @@ public:
 
     // allow for landing descent rate to be overridden by a script, may be -ve to climb
     bool set_land_descent_rate(float descent_rate) override;
+    float get_hdem(void) override;
+    float get_height(void) override;
 #endif // AP_SCRIPTING_ENABLED
 
 };

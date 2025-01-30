@@ -1,3 +1,20 @@
+Release 4.4.4.s1 30th January 2025 : AM Edited 
+--------------------------------
+
+Changes from 4.4.4:
+
+Add get_height and get_hdem methode to lua bindigs & vehicle.h
+Add override pointer in Plane.h for get_height and get_hdem
+Add override fun in ArduPlane.cpp
+
+Release 4.4.4.s 20th January 2025 : AM Edited 
+--------------------------------
+
+Changes from 4.4.4:
+
+Add airspeed bindings for temp, airspeed, get_raw_airspeed
+Add arm_force method to bindings & AP_Arming
+
 Release 4.4.4 19th December 2023
 --------------------------------
 

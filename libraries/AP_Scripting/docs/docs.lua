@@ -1794,6 +1794,14 @@ vehicle = {}
 ---@return boolean
 function vehicle:set_land_descent_rate(rate) end
 
+-- get_current alt
+---@return boolean
+function vehicle:get_height() end
+
+-- get_current alt
+---@return boolean
+function vehicle:get_hdem() end
+
 -- desc
 ---@param rudder_pct number
 ---@param run_yaw_rate_control boolean

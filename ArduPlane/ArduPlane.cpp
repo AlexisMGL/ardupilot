@@ -874,6 +874,17 @@ bool Plane::set_land_descent_rate(float descent_rate)
     return false;
 }
 
+// allow access to height
+float Plane::get_hdem(void)
+{
+    return float(tecs_target_alt_cm*0.01);
+}
+
+float Plane::get_height(void)
+{
+    return float(relative_altitude);
+}
+
 #endif // AP_SCRIPTING_ENABLED
 
 // correct AHRS pitch for TRIM_PITCH_CD in non-VTOL modes, and return VTOL view in VTOL
