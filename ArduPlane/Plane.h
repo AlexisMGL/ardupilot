@@ -1236,6 +1236,7 @@ public:
     bool set_land_descent_rate(float descent_rate) override;
     float get_hdem(void) override;
     float get_height(void) override;
+    float get_sinkrate(void) override;
 #endif // AP_SCRIPTING_ENABLED
 
 };

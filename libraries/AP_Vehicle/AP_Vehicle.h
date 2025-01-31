@@ -197,6 +197,8 @@ public:
 
     virtual float get_hdem() { return -1; }
 
+    virtual float get_sinkrate() { return -1; }
+
     // control outputs enumeration
     enum class ControlOutput {
         Roll = 1,

@@ -1798,9 +1798,13 @@ function vehicle:set_land_descent_rate(rate) end
 ---@return boolean
 function vehicle:get_height() end
 
--- get_current alt
+-- get_current target alt
 ---@return boolean
 function vehicle:get_hdem() end
+
+-- get_current sinkrate
+---@return boolean
+function vehicle:get_sinkrate() end
 
 -- desc
 ---@param rudder_pct number

@@ -885,6 +885,11 @@ float Plane::get_height(void)
     return float(relative_altitude);
 }
 
+float Plane::get_sinkrate(void)
+{
+    return float(auto_state.sink_rate);
+}
+
 #endif // AP_SCRIPTING_ENABLED
 
 // correct AHRS pitch for TRIM_PITCH_CD in non-VTOL modes, and return VTOL view in VTOL
