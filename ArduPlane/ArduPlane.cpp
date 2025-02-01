@@ -877,7 +877,7 @@ bool Plane::set_land_descent_rate(float descent_rate)
 // allow access to height
 float Plane::get_hdem(void)
 {
-    return float(tecs_target_alt_cm*0.01);
+    return TECS_controller.get_hdem();
 }
 
 float Plane::get_height(void)
