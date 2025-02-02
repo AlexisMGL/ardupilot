@@ -3,6 +3,7 @@ Release 4.4.4.s1 30th January 2025 : AM Edited
 
 Changes from 4.4.4:
 
+Add parachute release method
 Add get_sinkrate method, based on filtered sinkrate from parachute criteria
 Add get_height and get_hdem methode to lua bindigs & vehicle.h
 Add override pointer in Plane.h for get_height and get_hdem
