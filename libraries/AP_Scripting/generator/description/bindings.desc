@@ -67,6 +67,11 @@ singleton AP_Airspeed method get_airspeed float uint8_t 0 (AIRSPEED_MAX_SENSORS-
 singleton AP_Airspeed method get_raw_airspeed float uint8_t 0 (AIRSPEED_MAX_SENSORS-1)
 singleton AP_Airspeed method get_temperature boolean uint8_t 0 (AIRSPEED_MAX_SENSORS-1) float'Null
 
+include AP_Parachute/AP_Parachute.h
+singleton AP_Parachute depends HAL_PARACHUTE_ENABLED
+singleton AP_Parachute rename para
+singleton AP_Parachute method release void
+
 include AP_Arming/AP_Arming.h
 
 singleton AP_Arming rename arming

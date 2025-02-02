@@ -2517,6 +2517,12 @@ function airspeed:get_raw_airspeed(instance) end
 ---@return number|nil
 function airspeed:get_temperature(instance) end
 
+-- The Parachute methods
+para = {}
+
+-- desc
+function para:release() end
+
 -- desc
 ---@class arming
 arming = {}
