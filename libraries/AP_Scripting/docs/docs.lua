@@ -2524,6 +2524,9 @@ para = {}
 function para:release() end
 
 -- desc
+function para:released() end
+
+-- desc
 ---@class arming
 arming = {}
 

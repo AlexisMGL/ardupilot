@@ -71,6 +71,7 @@ include AP_Parachute/AP_Parachute.h
 singleton AP_Parachute depends HAL_PARACHUTE_ENABLED
 singleton AP_Parachute rename para
 singleton AP_Parachute method release void
+singleton AP_Parachute method released boolean
 
 include AP_Arming/AP_Arming.h
 
