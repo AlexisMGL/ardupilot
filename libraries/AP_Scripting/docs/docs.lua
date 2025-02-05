@@ -2524,6 +2524,7 @@ para = {}
 function para:release() end
 
 -- desc
+---@return boolean
 function para:released() end
 
 -- desc
