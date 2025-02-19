@@ -1,11 +1,20 @@
+Release 4.4.4.s2 19th February: AM Edited 
+--------------------------------
+
+Changes from 4.4.4.s1:
+
+Add get_output_pwm_chan method in SRV_Channels class and in bindings
+
+Add get_output_pwm_channel method
+
 Release 4.4.4.s1 30th January 2025 : AM Edited 
 --------------------------------
 
 Changes from 4.4.4:
 
-Add parachute release method
+Add parachute release & released method
 Add get_sinkrate method, based on filtered sinkrate from parachute criteria
-Add get_height and get_hdem methode to lua bindigs & vehicle.h
+Add get_height and get_hdem method to lua bindigs & vehicle.h
 Add override pointer in Plane.h for get_height and get_hdem
 Add override fun in ArduPlane.cpp
 
