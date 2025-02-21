@@ -2036,6 +2036,10 @@ function onvif:start(username, password, httphostname) end
 ---@class gcs
 gcs = {}
 
+-- Return the system time when a gcs with id of SYSID_MYGCS was last seen
+---@return uint32_t_ud -- system time in milliseconds
+function gcs:last_seen() end
+
 -- send named float value using NAMED_VALUE_FLOAT message
 ---@param name string -- up to 10 chars long
 ---@param value number -- value to send
