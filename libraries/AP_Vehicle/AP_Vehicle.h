@@ -209,6 +209,12 @@ public:
     // allow for landing descent rate to be overridden by a script, may be -ve to climb
     virtual bool set_land_descent_rate(float descent_rate) { return false; }
     
+    virtual float get_height() { return -1; }
+
+    virtual float get_hdem() { return -1; }
+
+    virtual float get_sinkrate() { return -1; }
+    
     // control outputs enumeration
     enum class ControlOutput {
         Roll = 1,

@@ -144,6 +144,10 @@ public:
         _need_reset = true;
     }
 
+    float get_hdem(void){
+        return _hgt_dem;
+    }
+
     // this supports the TECS_* user settable parameters
     static const struct AP_Param::GroupInfo var_info[];
 

@@ -1,5 +1,13 @@
 ArduPilot Plane Release Notes:
 ------------------------------------------------------------------
+Release 4.5.7.s1 24 Fev 2024
+
+Changes from 4.5.7
+
+Add methods for parachut script in bindings
+Add airspeed methods to bindings
+
+------------------------------------------------------------------
 Release 4.5.7 08 Oct 2024
 
 Changes from 4.5.7-beta1

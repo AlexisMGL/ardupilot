@@ -62,6 +62,21 @@ singleton AP_AHRS method initialised boolean
 singleton AP_AHRS method get_posvelyaw_source_set uint8_t
 singleton AP_AHRS method get_quaternion boolean Quaternion'Null
 
+include AP_Airspeed/AP_Airspeed.h
+singleton AP_Airspeed depends AP_AIRSPEED_ENABLED
+singleton AP_Airspeed rename airspeed
+singleton AP_Airspeed method enabled boolean uint8_t 0 (AIRSPEED_MAX_SENSORS-1)
+singleton AP_Airspeed method healthy boolean uint8_t 0 (AIRSPEED_MAX_SENSORS-1)
+singleton AP_Airspeed method get_airspeed float uint8_t 0 (AIRSPEED_MAX_SENSORS-1)
+singleton AP_Airspeed method get_raw_airspeed float uint8_t 0 (AIRSPEED_MAX_SENSORS-1)
+singleton AP_Airspeed method get_temperature boolean uint8_t 0 (AIRSPEED_MAX_SENSORS-1) float'Null
+
+include AP_Parachute/AP_Parachute.h
+singleton AP_Parachute depends HAL_PARACHUTE_ENABLED
+singleton AP_Parachute rename para
+singleton AP_Parachute method release void
+singleton AP_Parachute method released boolean
+
 include AP_Arming/AP_Arming.h
 
 singleton AP_Arming rename arming
@@ -340,6 +355,9 @@ singleton AP_Vehicle method has_ekf_failsafed boolean
 singleton AP_Vehicle method reboot void boolean
 singleton AP_Vehicle method is_landing boolean
 singleton AP_Vehicle method is_taking_off boolean
+singleton AP_Vehicle method get_height float
+singleton AP_Vehicle method get_hdem float
+singleton AP_Vehicle method get_sinkrate float
 
 include AP_SerialLED/AP_SerialLED.h
 singleton AP_SerialLED rename serialLED

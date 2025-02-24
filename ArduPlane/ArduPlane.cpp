@@ -909,6 +909,21 @@ bool Plane::set_land_descent_rate(float descent_rate)
 #endif
     return false;
 }
+
+float Plane::get_hdem(void)
+{
+    return TECS_controller.get_hdem();
+}
+
+float Plane::get_height(void)
+{
+    return float(relative_altitude);
+}
+
+float Plane::get_sinkrate(void)
+{
+    return float(auto_state.sink_rate);
+}
 #endif // AP_SCRIPTING_ENABLED
 
 // returns true if vehicle is landing.
